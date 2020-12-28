@@ -1,5 +1,8 @@
 --[[
+https://github.com/interobject/the_gathering_historical_missions
+
 https://git-scm.com/download/win
+https://desktop.github.com/
 ]]
 
 load_tup_mod = true
@@ -21,7 +24,7 @@ local _to = function( ... ) return logger:to( ... ) end
 							-- Module --
 --=====================================================================--
 
-package.path = package.path..";D:/Dev/TheGathering/workspace/module/historical/?.lua"
+package.path = package.path..";D:/Dev/TheGathering/workspace/module/historical_missions/?.lua"
 
 local tke_liu_bei_events  = require( "tke.export_event_tke_liu_bei" )
 local tke_sun_jian_events = require( "tke.export_event_tke_sun_jian" )

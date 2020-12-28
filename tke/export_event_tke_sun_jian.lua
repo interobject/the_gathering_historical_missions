@@ -28,6 +28,8 @@
 
 태사자(공융 잔존 세력 단양 항거 후 귀순)
 여몽(178:196), 반장(182), 육손(183:201), 능통(189), 정봉(215) - 연의에선 손권 시절 등용
+
+손견 - 3k_main_template_historical_sun_jian_hero_metal
 ]]
 
 local tke_sun_jian_events = {
@@ -43,15 +45,15 @@ local tke_sun_jian_events = {
 	missions = {
 		-- 한당, 주치는 스타팅으로 합류
 		-- 손견 시절 영입 - 한당, 주치, 주태, 장소
-		['01_01'] = { index = 11, hero_kr = "주태", desc = "점령 장사항",
+		['01_01'] = { index = 11, hero_kr = "주태", desc = "점령 적벽(장사)",
 			-- 주태 : 01 손권 어린 시절 주태를 따르다 이벤트
 			-- 주태 : 02 followup 손권 12군데 상처를 입으며 손권 구출 이벤트
 			mission_type = "OWN_N_REGIONS_INCLUDING",
-			objectives = {
+			objectives = {	-- 3k_main_changsha_resource_1 - 적벽(장사)
 				{ option = "GEN_TARGET_NONE" }, -- 스크립트로 조정
 			},
-			title = "몸에 난 상처마다 술 한잔씩",
-			description = "주태의 강맹한 몸에 난 상처마다 술 한 잔씩 마신다면 취하지 않고는 못배길 정도입니다.",
+			title = "몸에 난 흉터마다 술 한잔씩",
+			description = "주태의 강맹한 몸에 난 흉터마다 술 한 잔씩 마신다면 취하지 않고는 못배길 정도입니다.",
 			payload_text = "주태를 만나봅니다",
 			dilemma = {
 				title = "주태의 영입",
