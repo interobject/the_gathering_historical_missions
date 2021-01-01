@@ -132,7 +132,7 @@ local tke_cao_cao_events = {
 				{ option = "GEN_TARGET_NONE" },
 			},
 			payload_text = "순욱이 모사를 추천합니다",
-			objective_text = "모사 [[col:magic]]순욱[[/col]]과 함께 [[col:flavor]]전투[[/col]]에서 승리하십시오.",
+			objective_text = "모사 [[col:magic]]순욱[[/col]]과 함께 [[col:flavour]]전투[[/col]]에서 승리하십시오.",
 			title = "순욱의 모사 천거",
 			description = "순욱은 세상 이치에 밝고, 인재들과 교류가 많습니다. 순욱은 인재를 발굴하고 천거하는 재능을 가지고 있으니, 그가 인재를 천거할 때는 그의 말에 귀를 기울이십시오.",
 			dilemma = {
@@ -152,7 +152,7 @@ local tke_cao_cao_events = {
 				{ option = "GEN_TARGET_NONE" },
 			},
 			payload_text = "순욱이 또 다른 모사를 천거합니다",
-			objective_text = "모사 [[col:magic]]순욱[[/col]]의 기술 [[col:gold]]평정[[/col]]으로 [[col:flavor]]야간 전투[[/col]]에서 승리하십시오.",
+			objective_text = "모사 [[col:magic]]순욱[[/col]]의 기술 [[col:gold]]평정[[/col]]으로 [[col:flavour]]야간 전투[[/col]]에서 승리하십시오.",
 			title = "순욱의 천거 연계",
 			description = "순욱은 동탁, 한복과 원소 세력에 잠시 머물며 중원과 하북의 인재에 대한 식견이 높습니다. 그가 천거하는 인재는 아군에 큰 힘이 될 것입니다.",
 			dilemma = {

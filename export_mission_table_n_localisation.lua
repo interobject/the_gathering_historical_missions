@@ -1,5 +1,8 @@
 --[[
+https://github.com/interobject/the_gathering_historical_missions
+
 https://git-scm.com/download/win
+https://desktop.github.com/
 ]]
 
 load_tup_mod = true
@@ -16,12 +19,13 @@ local lib 		= mod_loader_lib()
 
 local _eq = function( ... ) return logger:eq( ... ) end
 local _to = function( ... ) return logger:to( ... ) end
+local _c2 = function( ... ) return logger:cto2(...) end
 
 --=====================================================================--
 							-- Module --
 --=====================================================================--
 
-package.path = package.path..";D:/Dev/TheGathering/workspace/module/historical/?.lua"
+package.path = package.path..";D:/Dev/TheGathering/workspace/module/historical_missions/?.lua"
 
 local tke_liu_bei_events  = require( "tke.export_event_tke_liu_bei" )
 local tke_sun_jian_events = require( "tke.export_event_tke_sun_jian" )
@@ -92,6 +96,7 @@ function missions:missions_tables()
 	
 	logger:pline( "_", self.faction_key.."_missions" )
 	logger( "" )
+	
 	local c_missions = 0
 	self:foreach( function( row )
 			out_loc_mission_titles( row )
@@ -122,9 +127,16 @@ function missions:localisations()
 		
 		logger:tsv( payload_ui_key, payload_ui_text, "FALSE" )
 		
+		-- missions_localised_supplementary_text_3k_main_tutorial_mission_sun_jian_recruit_units
 		if row.objective_text then
 			local objective_ui_key = "mission_text_text_objective_"..mission_key:match( "historical_([%w_]+)$")
 			local objective_ui_text = row.objective_text
+		
+			logger:tsv( objective_ui_key, objective_ui_text, "FALSE" )
+		end
+		if row.supplementary_text then
+			local objective_ui_key = "missions_localised_supplementary_text_"..mission_key
+			local objective_ui_text = row.supplementary_text
 		
 			logger:tsv( objective_ui_key, objective_ui_text, "FALSE" )
 		end
@@ -474,8 +486,11 @@ function dilemmas:option_juntions( out_special )
 		logger:tsv( self:get_id( is_mission, index, count ), dilemma_key, option, value, target )
 	end
 	
-	local function out_junctions_common_headers( is_mission, dilemma_key, index, template_key, gen_character )
-
+	local function out_junctions_common_headers( row, dilemma_key, index, template_key, gen_character )
+		local is_mission = row.is_mission
+		local var_chance = row.var_chance or 100
+		local cnd_random = row.cnd_random or 100
+		
 		out_option_line( is_mission, dilemma_key, index, 1, "CND_UNIQUE", "", "default" )
 		out_option_line( is_mission, dilemma_key, index, 2, "CND_CAMPAIGN", self.campaign_name, "default" )
 		out_option_line( is_mission, dilemma_key, index, 3, "GEN_CND_SELF", "", "target_faction_1" )
@@ -504,21 +519,21 @@ function dilemmas:option_juntions( out_special )
 			local template_key = historical.db_heroes_kr[ row.hero_kr ]
 			local gen_character = (row.gen_target) or (row.owns == true) or ( row.not_owns == true )
 			
-			local count = out_junctions_common_headers( row.is_mission, dilemma_key, index, template_key, gen_character )
+			local count = out_junctions_common_headers( row, dilemma_key, index, template_key, gen_character )
 
 			if row.junctions then
 				for _, option in pairs( row.junctions ) do
 					count = count + 1
-					out_option_line( row.is_mission, dilemma_key, index, count, option.option, option.value, option.target )
+					out_option_line( row, dilemma_key, index, count, option.option, option.value, option.target )
 				end
 			end
 
 			if row.not_owns then
 				count = count + 1
-				out_option_line( row.is_mission, dilemma_key, index, count, "GEN_CND_NOT_OWNS", "", "target_character_1" )
+				out_option_line( row, dilemma_key, index, count, "GEN_CND_NOT_OWNS", "", "target_character_1" )
 			elseif row.owns then
 				count = count + 1
-				out_option_line( row.is_mission, dilemma_key, index, count, "GEN_CND_OWNS", "", "target_character_1" )
+				out_option_line( row, dilemma_key, index, count, "GEN_CND_OWNS", "", "target_character_1" )
 			end
 			
 			c_junctions = c_junctions + 1
@@ -618,8 +633,13 @@ function incidents:init( events )
 
 	local count = 0
 	for line_key, row in pairs( events.missions ) do
-		if row.incident == true then
+		if row.incident == true or type(row.incident) == 'table' then
+			if type(row.incident) == 'table' then row = row.incident end
+			
 			row.key = line_key
+			row.hero_kr = events.missions[ line_key ].hero_kr
+			row.index = events.missions[ line_key ].index
+			row.desc = events.missions[ line_key ].desc
 			row.is_mission = true
 			row.order = 1
 			
@@ -628,14 +648,12 @@ function incidents:init( events )
 		end
 	end
 
-	for en_key, row in pairs( events.join_dilemmas ) do
-		if row.incident then
-			row.key = en_key
-			row.order = 2
+	for en_key, row in pairs( events.join_incidents ) do
+		row.key = en_key
+		row.order = 2
 			
-			table.insert( self.sorted, row )
-			count = count + 1
-		end
+		table.insert( self.sorted, row )
+		count = count + 1
 	end
 
 	for key, row in pairs( events.special_incidents ) do
@@ -675,23 +693,31 @@ function incidents:get_incident_key( row )
 	end
 end
 
-function incidents:get_incident_desc( row )
+function incidents:get_incident_title( row )
+	if not lib.is_empty(row.title) then
+		return row.title
+	end
+	
 	if row.is_mission == true then
-		return "Mission : "..row.hero_kr.." : "..row.desc
+		return "미션 : "..row.hero_kr
 	elseif row.is_special == true then
-		return "Speical : "..row.hero_kr.." : "..row.desc
+		return "스페셜 : "..row.hero_kr
 	else
-		return "Join : "..row.hero_kr.." : "..row.desc
+		return "합류 : "..row.hero_kr
 	end
 end
 
-function incidents:get_incident_title( row )
+function incidents:get_incident_desc( row, brief )
+	if not brief and not lib.is_empty(row.description) then
+		return row.description
+	end
+	
 	if row.is_mission == true then
-		return row.hero_kr
+		return "미션 : "..row.hero_kr.." : "..row.desc
 	elseif row.is_special == true then
-		return row.hero_kr
+		return "스페셜 : "..row.hero_kr.." : "..row.desc
 	else
-		return row.hero_kr
+		return "합류 : "..row.hero_kr.." : "..row.desc
 	end
 end
 
@@ -701,7 +727,7 @@ function incidents:incidents_table()
 
 	local function out_incidents_title( row )
 		local incident_key = self:get_incident_key( row )
-		local desc = self:get_incident_desc( row )
+		local desc = self:get_incident_desc( row, true )
 		local title = self:get_incident_title( row )
 		
 		logger:tsv( incident_key )
@@ -716,24 +742,160 @@ function incidents:incidents_table()
 	)
 
 	logger("")
+	
+	self:foreach( function( row )
+			if row.payload_text then
+				local incident_key = self:get_incident_key( row )
+				logger( incident_key:match( "historical_([%w_]+)_incident$") )
+			end
+		end 
+	)
+	
+	logger("")
 	logger:line( "_", string.format( "incidents_table %d", count ) )
+end
+
+function incidents:get_id( is_mission, index, count )
+	return string.format( "%s%s%02d%02d", self.id_prefix, (is_mission and "1" or "0"), index, count )
+end
+
+function incidents:option_juntions( out_special )
+	local function out_option_line( is_mission, incident_key, index, count, option, value, target )
+		
+		if not index or not count then
+			logger:fatal( incident_key, index, count )
+		end
+		
+		target = target or "default"
+		value = value or ""
+		
+		logger:tsv( self:get_id( is_mission, index, count ), incident_key, option, value, target )
+	end
+	
+	local function out_junctions_common_headers( row, incident_key, index, template_key, gen_character )
+		local is_mission = row.is_mission
+		local var_chance = row.var_chance or 100
+		local cnd_random = row.cnd_random or 100
+		
+		out_option_line( is_mission, incident_key, index, 1, "CND_UNIQUE", "", "default" )
+		out_option_line( is_mission, incident_key, index, 2, "CND_CAMPAIGN", self.campaign_name, "default" )
+		out_option_line( is_mission, incident_key, index, 3, "GEN_CND_SELF", "", "target_faction_1" )
+		out_option_line( is_mission, incident_key, index, 4, "GEN_TARGET_FACTION", "", "target_faction_1" )
+		out_option_line( is_mission, incident_key, index, 5, "CND_FACTION", self.faction_tk_key, "target_faction_1" )
+		out_option_line( is_mission, incident_key, index, 6, "VAR_CHANCE", var_chance, "default" )
+		out_option_line( is_mission, incident_key, index, 7, "CND_RANDOM", cnd_random, "default" )
+
+		if gen_character then
+			out_option_line( is_mission, incident_key, index, 8, "GEN_CND_CHARACTER_TEMPLATE", template_key, "target_character_1" )
+			out_option_line( is_mission, incident_key, index, 9, "GEN_TARGET_CHARACTER", "", "target_character_1" )
+			return 9
+		else
+			return 7
+		end
+	end
+
+	logger:pline( "_", self.faction_key.."_incidents option_juntions" )
+	logger( "" )
+	
+	local c_junctions = 0
+	
+	self:foreach( function( row )
+		if (out_special and row.is_special) or (not out_special and not row.is_special ) then
+			local incident_key = self:get_incident_key( row )
+			local index = row.index
+			local template_key = historical.db_heroes_kr[ row.hero_kr ]
+			local gen_character = (row.gen_target) or (row.owns == true) or ( row.not_owns == true )
+				
+			local count = out_junctions_common_headers( row, incident_key, index, template_key, gen_character )
+
+			if row.options and #row.options > 0 then
+				for _, option in pairs( row.options ) do
+					count = count + 1
+					out_option_line( row, incident_key, index, count, option.option, option.value, option.target )
+				end
+			end
+
+			if row.not_owns then
+				count = count + 1
+				out_option_line( row, incident_key, index, count, "GEN_CND_NOT_OWNS", "", "target_character_1" )
+			elseif row.owns then
+				count = count + 1
+				out_option_line( row, incident_key, index, count, "GEN_CND_OWNS", "", "target_character_1" )
+			end
+			
+			c_junctions = c_junctions + 1
+		end
+	end )
+	
+	logger( "" )
+	logger:line( "_", string.format( "incidents_option_juntions %s %d", _c2( out_special, "special", "" ), c_junctions ) )
+end
+
+function incidents:payloads( out_special )
+	local function out_payload_line( is_mission, incident_key, index, count, payload, value, target )
+		target = target or "default"
+		value = value or ""
+		
+		logger:tsv( self:get_id( is_mission, index, count ), incident_key, payload, value, target )
+	end
+	
+	local function out_payloads_common_headers( is_mission, incident_key, index )
+
+
+		return 1
+	end
+
+	logger( "" )
+	logger:pline( "_", self.faction_key.."_incidents payloads" )
+	
+	local c_payloads = 0
+	
+	self:foreach( function( row )
+		if (out_special and row.is_special) or (not out_special and not row.is_special ) then
+			local incident_key = self:get_incident_key( row )
+			local index = row.index
+			local count = 0
+
+			if row.payloads and #row.payloads > 0 then
+				for _, payload in pairs( row.payloads ) do
+					count = count + 1
+					out_payload_line( row.is_mission, incident_key, index, count, payload.payload, payload.value, payload.target )
+				end
+			else
+				count = count + 1
+				if row.gen_target then
+					out_payload_line( row.is_mission, incident_key, index, count, "LOCATED", "CHARACTER", "target_character_1" )
+				else
+					out_payload_line( row.is_mission, incident_key, index, count, "DUMMY", "", "default" )
+				end
+			end
+
+			if row.payload_text then
+				count = count + 1
+				out_payload_line( is_mission, incident_key, index, count, "TEXT_DISPLAY", "LOOKUP["..incident_key:match( "historical_([%w_]+)_incident$").."]", "default" )
+			end
+
+			c_payloads = c_payloads + 1
+		end
+	end )
+
+	logger( "" )
+	logger:line( "_", string.format( "out_incidents_payloads %d", c_payloads ) )
 end
 
 function incidents:localisations()
 
 	local function out_localisations( row )
-		local choices = { [1] = "FIRST", [2] = "SECOND", [3] = "THIRD", [4] = "FOURTH" }
-		local choice_tails = { [1] = "합류", [2] = "무시", [3] = "다른 장수", [4] = "모두 다" }
-		
 		local head_title = "incidents_localised_title_"
 		local head_desc = "incidents_localised_description_"
 		
-		local desc = self:get_incident_desc( row )
+		local title = self:get_incident_title( row )
+		local description = self:get_incident_desc( row, false )
 		local incident_key = self:get_incident_key( row )
 		local hero_kr = row.hero_kr
 
-		logger:tsv( head_title..incident_key, hero_kr.." 인시던트(제목)", "FALSE" )
-		logger:tsv( head_desc..incident_key, hero_kr.." 인시던트(설명) "..desc, "FALSE" )
+		logger:tsv( head_title..incident_key, title, "FALSE" )
+		logger:tsv( head_desc..incident_key, description, "FALSE" )
 
 		if row.payload_text then
 			local payload_ui_key = "campaign_payload_ui_details_description_"..incident_key:match( "historical_([%w_]+)_incident$")
@@ -756,125 +918,6 @@ function incidents:localisations()
 	logger:line( "_", string.format( "out_incidents_localisations %d", count ) )
 end
 
-function incidents:get_id( is_mission, index, count )
-	return string.format( "%s%s%02d%02d", self.id_prefix, (is_mission and "1" or "0"), index, count )
-end
-
-function incidents:option_juntions( out_special )
-	local function out_option_line( is_mission, incident_key, index, count, option, value, target )
-		
-		if not index or not count then
-			logger:fatal( incident_key, index, count )
-		end
-		
-		target = target or "default"
-		value = value or ""
-		
-		logger:tsv( self:get_id( is_mission, index, count ), incident_key, option, value, target )
-	end
-	
-	local function out_junctions_common_headers( is_mission, incident_key, index, template_key, gen_character )
-
-		out_option_line( is_mission, incident_key, index, 1, "CND_UNIQUE", "", "default" )
-		out_option_line( is_mission, incident_key, index, 2, "CND_CAMPAIGN", self.campaign_name, "default" )
-		out_option_line( is_mission, incident_key, index, 3, "GEN_CND_SELF", "", "target_faction_1" )
-		out_option_line( is_mission, incident_key, index, 4, "GEN_TARGET_FACTION", "", "target_faction_1" )
-		out_option_line( is_mission, incident_key, index, 5, "CND_FACTION", self.faction_tk_key, "target_faction_1" )
-		out_option_line( is_mission, incident_key, index, 6, "VAR_CHANCE", "1000", "default" )
-		out_option_line( is_mission, incident_key, index, 7, "CND_RANDOM", "100", "default" )
-
-		if gen_character then
-			out_option_line( is_mission, incident_key, index, 8, "GEN_CND_CHARACTER_TEMPLATE", template_key, "target_character_1" )
-			out_option_line( is_mission, incident_key, index, 9, "GEN_TARGET_CHARACTER", "", "target_character_1" )
-			return 9
-		else
-			return 7
-		end
-	end
-
-	logger:pline( "_", self.faction_key.."_incidents option_juntions" )
-	logger( "" )
-	
-	local c_junctions = 0
-	self:foreach( function( row )
-		if (out_special and row.is_special) or (not out_special and not row.is_special ) then
-			local incident_key = self:get_incident_key( row )
-			local index = row.index
-			local template_key = historical.db_heroes_kr[ row.hero_kr ]
-			local gen_character = (row.gen_target) or (row.owns == true) or ( row.not_owns == true )
-				
-			local count = out_junctions_common_headers( row.is_mission, incident_key, index, template_key, gen_character )
-
-			if row.payloads then
-				for _, option in pairs( row.payloads ) do
-					count = count + 1
-					out_option_line( row.is_mission, incident_key, index, count, option.option, option.value, option.target )
-				end
-			end
-
-			if row.not_owns then
-				count = count + 1
-				out_option_line( row.is_mission, incident_key, index, count, "GEN_CND_NOT_OWNS", "", "target_character_1" )
-			elseif row.owns then
-				count = count + 1
-				out_option_line( row.is_mission, incident_key, index, count, "GEN_CND_OWNS", "", "target_character_1" )
-			end
-			
-			c_junctions = c_junctions + 1
-		end
-	end )
-	
-	logger( "" )
-	logger:line( "_", string.format( "out_incidents_option_juntions %d", c_junctions ) )
-end
-
-function incidents:payloads()
-	local function out_payload_line( is_mission, incident_key, index, count, option, value, target )
-		target = target or "default"
-		value = value or ""
-		
-		logger:tsv( self:get_id( is_mission, index, count ), incident_key, option, value, target )
-	end
-	
-	local function out_payloads_common_headers( is_mission, incident_key, index, choice )
-
-		choice = choice or 2
-		
-		out_payload_line( is_mission, incident_key, "FIRST", index, 1, "TEXT_DISPLAY", "LOOKUP["..incident_key:match( "historical_([%w_]+)_incident$").."]", "default" )
-		out_payload_line( is_mission, incident_key, "SECOND", index, 2, "DUMMY", "", "default" )
-		
-		if choice >= 3 then out_payload_line( is_mission, incident_key, "THIRD", index, 3, "DUMMY", "", "default" ) end
-		if choice >= 4 then out_payload_line( is_mission, incident_key, "FOURTH", index, 4, "DUMMY", "", "default" ) end
-		
-		return choice
-	end
-
-	logger( "" )
-	logger:pline( "_", self.faction_key.."_incidents payloads" )
-	
-	local c_payloads = 0
-	
-	self:foreach( function( row )
-		local incident_key = self:get_incident_key( row )
-		local index = row.index
-		local count = 0
-
-		if row.payloads then
-			for _, option in pairs( row.payloads ) do
-				count = count + 1
-				--out_payload_line( row.is_mission, incident_key, row.choice, index, count, option.option, option.value, option.target )
-			end
-		else
-			count = count + 1
-			out_payload_line( row.is_mission, incident_key, index, count, "DUMMY", "", "default" )
-		end
-		c_payloads = c_payloads + 1
-	end )
-
-	logger( "" )
-	logger:line( "_", string.format( "out_incidents_payloads %d", c_payloads ) )
-end
-
 -- ============================================================= --
 						-- Process --
 -- ============================================================= --
@@ -883,32 +926,37 @@ local curr_events = tke_liu_bei_events
 local curr_events = tke_cao_cao_events
 local curr_events = tke_sun_jian_events
 
-local out_missions, out_dilemmas, out_incidents = true, true, true
+local out_missions, out_dilemmas, out_incidents = false, false, true
 
 if out_missions then
 	missions:init( curr_events )
 	missions:missions_tables()
-	missions:localisations()
-
 	missions:option_juntions()
 	missions:payloads()
+	missions:localisations()
 end
+
+local out_special = true
 
 if out_dilemmas then
 	dilemmas:init( curr_events )
 	dilemmas:dilemmas_table()
 	dilemmas:choice_details_table()
+	dilemmas:option_juntions( out_special )
+	dilemmas:option_juntions( not out_special )
+	dilemmas:payloads( out_special )
+	dilemmas:payloads( not out_special )
 	dilemmas:localisations()
-	dilemmas:option_juntions( false )
-	dilemmas:payloads( false )
 end
 
 if out_incidents then
 	incidents:init( curr_events )
-	--incidents:incidents_table()
-	--incidents:localisations()
-	--incidents:option_juntions( true )
-	--incidents:payloads()
+	incidents:incidents_table()
+	incidents:option_juntions( out_special )
+	incidents:option_juntions( not out_special )
+	incidents:payloads( out_special )
+	incidents:payloads( not out_special )
+	incidents:localisations()
 end
 
 -- ============================================================= --
