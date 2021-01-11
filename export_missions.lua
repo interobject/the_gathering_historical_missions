@@ -853,6 +853,7 @@ function incidents:payloads( out_special )
 	self:foreach( function( row )
 		if (out_special and row.is_special) or (not out_special and not row.is_special ) then
 			local incident_key = self:get_incident_key( row )
+			local is_mission = row.is_mission
 			local index = row.index
 			local count = 0
 
