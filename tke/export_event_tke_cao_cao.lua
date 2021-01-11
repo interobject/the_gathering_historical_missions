@@ -153,6 +153,7 @@ local tke_cao_cao_events = {
 			},
 			payload_text = "순욱이 또 다른 모사를 천거합니다",
 			objective_text = "모사 [[col:magic]]순욱[[/col]]의 기술 [[col:gold]]평정[[/col]]으로 [[col:flavour]]야간 전투[[/col]]에서 승리하십시오.",
+			supplementary_text = "감시자 [[col:flavour]]조인[[/col]] 3레벨에 [[col:gold]]평정[[/col]]을 습득하여 순욱과 함께 전투를 진행할 수도 있습니다.",
 			title = "순욱의 천거 연계",
 			description = "순욱은 동탁, 한복과 원소 세력에 잠시 머물며 중원과 하북의 인재에 대한 식견이 높습니다. 그가 천거하는 인재는 아군에 큰 힘이 될 것입니다.",
 			dilemma = {
@@ -309,17 +310,17 @@ local tke_cao_cao_events = {
 				{ option = "VAR_OBJECTIVE_CHARACTER_ID", value = "2140783959" },
 			},
 			title = "천하를 얻다",
-			description = "천하를 얻기위해서는 최고의 책사가 필요합니다. 재능을 가진 은둔 거사를 찾아 주군을 보필하게 하십시오.",
-			objective_text = "주군, 하내로 이동하여 모사 사마의를 찾으십시오.",
-			payload_text = "은둔거사 사마의가 아군 조정에 합류합니다.",
+			description = "천하를 얻기위해서는 최고의 책사가 필요합니다. 최고의 재능을 가졌다는 은둔 거사를 찾아가서 주군을 보필하게 하십시오.",
+			objective_text = "주군, 하내로 이동하여 은둔거사를 찾아보십시오.",
+			payload_text = "은둔거사 사마의를 아군 조정에 초빙합니다.",
 			dilemma = {
 				title = "랑고의 상",
 				description = "온현에 사마의라는 위인이 있다는 소문을 들었습니다. 그는 '사마팔달' 중 한 명이자 재능있는 관료입니다. 그를 수도로 불러들여야 할까요?",
 				choices = {
-					first = { title = "환대한다", description = "현명한 지도자는 뛰어난 재능을 갖춘 자를 알아보고 그를 적절히 이용해야 합니다. 당신은 이야기를 나눠보기 위해 그를 초대했습니다." },
+					first = { title = "사람을 보내 초빙한다", description = "현명한 지도자는 뛰어난 재능을 갖춘 자를 알아보고 그를 적절히 이용해야 합니다. 당신은 이야기를 나눠보기 위해 그를 초대했습니다." },
 					second = { title = "내버려둔다", description = "만약 그가 당신을 돕고자 했다면 이미 당신에게 접근했을 것입니다. 당신은 그의 개인사를 존중하여, 홀로 내버려두기로 했습니다." },
 				},
-				payload_text = "사마의를 군사로 초빙한다",
+				payload_text = "사마의를 군사로 초빙하기 위해 사람을 보냈습니다",
 			},
 		},
 	},
@@ -438,34 +439,145 @@ local tke_cao_cao_events = {
 
 	special_dilemmas = {
 		 ['guan_yu_captured'] = { index = 61, hero_kr = "관우", choice = 3, desc = "장료 하비에서 전투 중 관우 조우",
-					title = "무신의 굴복",
-					description = "장료는 무신 관우를 아군에 합류시킬 수 있었다고 보고했습니다. 다만 여성에게 해를 가하지 않을 것, 항상 다른 이들이 아닌 천자만을 섬길 것, 그리고 자신의 형제를 찾으면 조조에게서 떠나 형제에게로 돌아갈 것이라는 세 가지 조건을 걸었다고 합니다.",
-					choices = { 
-						first = { title = "조건을 받아들인다", description = "무신의 일화는 전설적입니다. 당신은 그의 무예를 얻는 대가로 그의 조건을 기꺼이 받아들였습니다." },
-						second = { title = "조건을 무시한다", description = "당신은 관우의 요청을 거부했습니다. 결코 받아들일 수 없는 조건을 제시한 것으로 보아, 그의 요청은 그저 겉치레인 것 같습니다." },
-						third = { title = "처형한다", description = "이따위 말도 안되는 조건을 제시하는 것은 당신을 모욕한 것입니다. 당신은 대화를 구실로 관우를 만나 처형했습니다." },
-					},
-					gen_target = true,
+				title = "무신의 굴복",
+				description = "장료는 무신 관우를 아군에 합류시킬 수 있었다고 보고했습니다. 다만 여성에게 해를 가하지 않을 것, 항상 다른 이들이 아닌 천자만을 섬길 것, 그리고 자신의 형제를 찾으면 조조에게서 떠나 형제에게로 돌아갈 것이라는 세 가지 조건을 걸었다고 합니다.",
+				choices = { 
+					first = { title = "조건을 받아들인다", description = "무신의 일화는 전설적입니다. 당신은 그의 무예를 얻는 대가로 그의 조건을 기꺼이 받아들였습니다." },
+					second = { title = "조건을 무시한다", description = "당신은 관우의 요청을 거부했습니다. 결코 받아들일 수 없는 조건을 제시한 것으로 보아, 그의 요청은 그저 겉치레인 것 같습니다." },
+					third = { title = "처형한다", description = "이따위 말도 안되는 조건을 제시하는 것은 당신을 모욕한 것입니다. 당신은 대화를 구실로 관우를 만나 처형했습니다." },
 				},
+				gen_target = true,
+			},
 		 ['liu_bei_faction_died'] = { index = 62, hero_kr = "유비", desc = "타 세력에게 유비 세력 멸망",
-					title = "",
-					description = "",
-				},
+				title = "",
+				description = "",
+			},
 		 ['xu_you_conversion'] = { index = 63, hero_kr = "허유", desc = "원소와 전쟁 중 대치",
-					title = "",
-					description = "",
-				},
-		 --[[
+				title = "",
+				description = "",
+			},
+			--[[
 			전위 사망 바닐라 이벤트
 			양수 조비
 			양수 계륵
-		]]
+			]]
+		 ['sima_yi_followup_02'] = { index = 81, hero_kr = "사마의", desc = "사마의 등용 연계",
+			-- 스크립트에서 2턴 뒤부터 확률로 트리거
+			title = "뜻을 굽히지 않는 사마의",
+			description = "사마의는 건강도 나빠지고 있고, 풍도 들었다는 핑계로 당신의 부름을 거절했습니다. 당신은 뭔가 미심쩍어, 사마의를 염탐하라고 사람을 보냈습니다. 근데 사마의가 비바람이 부는 날에 달리고 있다지 뭡니까!",
+			choices = { 
+				first = { title = "소환한다", description = "당신은 사마의의 거짓말과 거기에 숨은 동기에 분노하여, 그를 즉각 불러들였습니다." },
+				second = { title = "내버려둔다", description = "스스로도 믿지 못하는 조언가는 신뢰할 수도 없으며 쓸모도 없습니다. 당신은 그를 내버려두기로 결정했습니다." },
+			},
+			options = {
+				{ option = "GEN_TARGET_NONE", },
+			},
+			var_chance = 1000,
+			cnd_random = 55,
+			payload_text = "응시랑고의 상을 가진 [[col:flavour]]사마의[[/col]]가 합류합니다."
+		},
+		['mission_selection_01'] = { index = 91, choice = 4, desc = "1차 진출 목표 선택",
+			title = "조조의 1차 진출 목표",
+			description = "주군! 이제 군비가 확충되고 인재가 모여 아군의 힘이 강해지고 있습니다. 천하를 도모하기 위해 아군이 진격할 방향을 결정해주십시오.",
+			options = {
+				{ option = "GEN_CND_REGION", value = "3k_main_yingchuan_capital", target = "target_region_1" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_1" }, -- 북쪽 허창(영천)
+				{ option = "GEN_CND_REGION", value = "3k_dlc06_xiapi_capital", target = "target_region_2" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_2" }, -- 동쪽 하비(서주)
+				{ option = "GEN_CND_REGION", value = "3k_main_runan_capital", target = "target_region_3" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_3" }, -- 서쪽 여음(여남)
+				{ option = "GEN_CND_REGION", value = "3k_main_yangzhou_capital", target = "target_region_4" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_4" }, -- 남쪽 수춘(양주)
+			},
+			choices = { 
+				first = { 
+					title = "북쪽으로 진출한다",
+					payload_text = "연주를 공략하고 하북을 견제하자",
+					description = "유총과 유대를 공략하고, 하북 세력을 견제합니다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_1" },
+					},
+				},
+				second = {
+					title = "당연히 동쪽이다",
+					payload_text = "도겸을 처단하여 원한을 청산하자",
+					description = "서주 도겸을 처단하여 합병하고, 유비와 공융 세력을 압박한다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_2" },
+					},
+				},
+				third = { 
+					title = "서쪽으로 가자",
+					payload_text = "황건적 잔당을 소탕하고 형주를 노리자",
+					description = "황건적 하의를 소탕하고, 여남을 확보하여 유표와 원술을 견제한다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_3" },
+					},
+				},
+				fourth = {
+					title = "남쪽이다",
+					payload_text = "우선 장강으로 진출한다",
+					description = "장강 무역로를 확보하여 산업을 부흥시키고, 농업을 진흥시킨다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_4" },
+					},
+				},
+			},
+		},
+		['mission_selection_02'] = { index = 92, choice = 4, desc = "2차 진출 목표 선택",
+			title = "조조의 2차 진출 목표",
+			description = "주군! 1차 진격 목표가 달성되었습니다. 천하를 도모하기 위해 아군이 2차로 진격할 방향을 결정해주십시오.",
+			options = {
+				{ option = "GEN_CND_REGION", value = "3k_main_dongjun_capital", target = "target_region_1" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_1" }, -- 북쪽 복양(동군)
+				{ option = "GEN_CND_REGION", value = "3k_main_donghai_capital", target = "target_region_2" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_2" }, -- 동쪽 담현(동해)
+				{ option = "GEN_CND_REGION", value = "3k_main_luoyang_capital", target = "target_region_3" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_3" }, -- 서쪽 낙양(하내윤)
+				{ option = "GEN_CND_REGION", value = "3k_main_guangling_capital", target = "target_region_4" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_4" }, -- 남쪽 회음(광릉)
+			},
+			choices = { 
+				first = { 
+					title = "하북을 노려본다",
+					payload_text = "하북으로 가려면 복양을 거처야 합니다. 복양을 점령하여 원소와 대치합니다.",
+					description = "하북을 향한 교두보를 마련합니다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_1" },
+					},
+				},
+				second = {
+					title = "동쪽으로 간다",
+					payload_text = "유비의 본거지로 진격한다",
+					description = "유비를 합병하고 공융을 견제합니다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_2" },
+					},
+				},
+				third = { 
+					title = "중원으로 가자",
+					payload_text = "버려진 낙양으로 진출한다",
+					description = "옛 수도 낙양으로 진출하여 한나라의 멸망을 재촉한다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_3" },
+					},
+				},
+				fourth = {
+					title = "강남을 도모하자",
+					payload_text = "강남 정벌의 교두보를 만듭니다.",
+					description = "강동을 정벌하기 위해선 장강 항구 도시에 거점을 만들어야 합니다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_4" },
+					},
+				},
+			},
+		},
 	},
 	
 	special_incidents = {
 		 ['guan_yu_leave'] = { index = 61, hero_kr = "관우", desc = "관우 등용 후 10턴 경과, 관우 포함 전투 3번 후",
 					title = "홀연히 떠난 관우",
-					description = "관우가 당신을 따랐지만 관우의 충성심은 여전했습니다. 그는 유비의 행방을 알아차리자마자 곧바로 짐을 싸고 사라졌습니다.",
+					description = "관우가 당신을 따랐지만 관우의 유비에 대한 충성심은 여전했습니다. 그는 유비의 행방을 알아차리자마자 곧바로 짐을 싸고 사라졌습니다.",
 					gen_target = true,
 				},
 		 ['guan_yu_captured_string'] = { index = 62, hero_kr = "관우", desc = "하비 전투 후 관우 포로 메시지" },

@@ -91,12 +91,7 @@ local tke_liu_bei_events = {
 		},
 	},
 
---[[
-	['3k_main_template_historical_ma_chao_hero_fire'] = { dilemma = "historical_tke_cao_cao_51_join_ma_chao_dilemma" },
-	['3k_main_template_historical_huang_zhong_hero_metal'] = { dilemma = "historical_tke_cao_cao_52_join_huang_zhong_dilemma" },
-	['3k_main_template_historical_wei_yan_hero_wood'] = { dilemma = "historical_tke_cao_cao_54_join_wei_yan_dilemma" },
-]]
-	
+	join_incidents = {},
 	join_dilemmas = {
 		['huang_zhong'] = { index = 01, hero_kr = "황충", desc = "황충 소속 세력 멸망", -- 기본 유비
 			title = "노익장",
@@ -130,7 +125,41 @@ local tke_liu_bei_events = {
 		},
 	},
 	
-	special_dilemmas = {},
+	special_dilemmas = {
+		['to_jingzhou'] = { index = 00, desc = "유비 강릉 이동",
+			ui_image = "ep_event_capturing_capital_good_sima_yue",
+			title = "유비를 [[col:dark_r]]강릉[[/col]] 지역으로 이동시키겠습니까?",
+			description = "\\\\n유비가 [[col:dark_r]]강릉[[/col]]으로 이동하여 삼국 정립을 준비할 수 있습니다.\\\\n\\\\n[[b]]'이동하기'[[/b]]를 선택하면 유비는 즉시 [[col:dark_r]]강릉[[/col]]으로 이동하고, 강릉에 있는 손견과 전유는 장사로 이동됩니다.\\\\n유비와 황건적 조백이 강릉으로 이동한 후, [[col:red]]조백[[/col]]을 처치 하십시오.\\\\n[[col:red]]동군과 낭야[[/col]]를 점령하는 튜토리얼 미션은 자동으로 완료됩니다.\\\\n\\\\n유비의 역사적 미션은 [[col:dark_r]]유표 합병 미션[[/col]]으로 연결됩니다.",
+			options = {
+				{ option = "GEN_CND_REGION", value = "3k_main_jingzhou_capital", target = "target_region_1" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_1" },
+				{ option = "GEN_CND_CHARACTER_TEMPLATE", value = "3k_main_template_historical_liu_bei_hero_earth", target = "target_character_1" },
+				{ option = "GEN_TARGET_CHARACTER", value = "", target = "target_character_1" },
+			},
+			choices = {
+				first = {
+					title = "강릉으로 이동한다",
+					description = "손견과 화친하며 유표를 공략하며 삼국 정립을 대비한다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_1" },
+					},
+					payload_texts = {
+						"조운, 서서, 주창의 빠른 합류 미션(개발 중)",
+						"유표를 조심하십시오.",
+						"손견과 연맹을 고려하십시오",
+					},
+				},
+				second = {
+					title = "그대로 진행한다",
+					description = "공용과 도겸을 보호하며 조조와 원소의 침공을 대비한다.",
+					ui_text = "dummy_factual_choice",
+					payloads = {
+						{ payload = "LOCATED", value = "CHARACTER", target = "target_character_1" },
+					},
+				},
+			},
+		},
+	},
 	special_incidents = {},
 }
 

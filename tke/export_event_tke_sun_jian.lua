@@ -34,7 +34,7 @@
 
 주유 - 수춘, 서현, 죽마고우, 바닐라 (2:197) 스폰 이벤트 - 유니크 아머로 체크하니 PC에서 미리 스폰해도 됨
 
-강동이교 (여남 환성, 교공의 두 딸 199년 약탈혼)
+강동이교 (여강 환성, 교공의 두 딸 199년 약탈혼)
 3k_main_template_historical_lady_da_qiao_hero_earth
 3k_main_template_historical_lady_xiao_qiao_hero_metal
 
@@ -75,7 +75,7 @@ local tke_sun_jian_events = {
 			objective_text = "[[col:flavour]]강릉[[/col]] 또는 [[col:flavour]]적벽[[/col]] 항구을 점령하십시오",
 			dilemma = {
 				title = "창업 공신",
-				description = "이자는 성실하며, 활쏘기와 말타기에 능숙하고 힘이 세니, 아군이 창업하는 고난 속을 함께 뚫고나갈 꼭 필요한 인물이다.",
+				description = "이자는 성실하며, 활쏘기와 말타기에 능숙하고 힘이 세니, 아군이 창업하는 이 시기의 고난을 함께 뚫고나갈 꼭 필요한 인물이다.",
 				choices = {
 					first = { title = "그를 등용시킨다", description = "궂은 일을 마다하지 않는 숨은 영웅이 될 것이다." },
 					second = { title = "지나친다", description = "불필요한 자다." },
@@ -94,12 +94,12 @@ local tke_sun_jian_events = {
 			title = "무역로 개설",
 			description = "장강 항구를 점령하여 강북과 무역로를 개설할 수 있게 되었습니다. 무역을 시작하여 아군 세력의 번영을 이끌어주십시오",
 			payload_text = "창업 공신 주치가 합류합니다.",
-			supplementary_text = "외교 패널에서 [[col:dark_r]]빠른 협상[[/col]]으로 무역 가능한 세력을 검색하십시오. 장강의 끝에 있는 세력이라도 무역을 시작할 수 있습니다.",
+			supplementary_text = "외교 패널에서 [[col:dark_r]]빠른 협상[[/col]]으로 무역 가능한 세력을 검색하십시오. 장강의 끝에 있는 세력이라도 장강에 접경하고 있다면 무역을 시작할 수 있습니다.",
 			dilemma = {
 				title = "주치의 합류",
-				description = "주치는 주군을 도와 창업하여 장사, 영릉, 계양 등 형주 남군 지역을 점유하며, 오국의 기초를 세워나갈 믿음직한 충복이 될 것입니다.",
+				description = "주치는 주군을 도와 창업하여 장사, 영릉, 계양 등 형주 남군 지역을 정벌하며, 오나라의 기초를 세워나갈 이 때, 믿음직한 충복이 될 것입니다.",
 				choices = {
-					first = { title = "등용시킨다", description = "창업 초기 힘든 시기를 함께 극복합니다." },
+					first = { title = "등용한다", description = "창업 초기 힘든 시기를 함께 극복합니다." },
 					second = { title = "지나친다", description = "지금은 필요치 않다" },
 				},
 				payload_text = "주치가 합류합니다.",
@@ -136,15 +136,15 @@ local tke_sun_jian_events = {
 			title = "장강을 지배하다",
 			description = "장강에는 수적들이 활동하고 있습니다. 그들 중에 주군이 영입할만한 인재가 있다는 소문입니다. 장강 항구에서 그들을 만나볼 수 있을 것입니다",
 			payload_text = "수적들 중에 인재를 찾아봅니다.",
-			objective_text = "다음 항구 정착지 중 [[col:dark_r]]3 지역[[/col]]을 점령하십시오.",
+			objective_text = "다음 항구 정착지 중 [[col:dark_r]]세 지역[[/col]]을 점령하십시오.",
 			dilemma = {
 				title = "주태와 장흠이 세력에 합류합니다",
-				description = "도망치는 적들 뒤로, 적 진지에서 연기가 피어오르는 것이 보입니다. 바로 두 명의 위대한 전사, 주태와 장흠이 불을 놓은 것입니다. 해적으로 살던 그들은 당신의 명성을 오래 전 부터 들어왔고, 당신에게 거두어 줄 것을 청합니다.",
+				description = "도망치는 적들 뒤로, 적 진지에서 연기가 피어오르는 것이 보입니다. 바로 두 명의 강맹한 전사, 주태와 장흠이 불을 놓은 것입니다. 수적으로 살던 그들은 당신의 명성을 오래 전 부터 들어왔고, 당신에게 거두어 줄 것을 청합니다.",
 				choices = {
 					first = { title = "그를 등용시킨다", description = "주태의 흉터는 그가 얼마나 용맹한지를 보여줍니다." },
-					second = { title = "지나친다", description = "흉악한 자로다." },
+					second = { title = "지나친다", description = "흉악한 자들이로다." },
 				},
-				payload_text = "주태를 아군에 영입합니다.",
+				payload_text = "주태와 장흠를 아군에 영입합니다.",
 			},
 		},
 		-- 주유 합류 라인 -- 강동이장, 강동이교 -- MTU와 충돌 회피 필요
@@ -171,7 +171,7 @@ local tke_sun_jian_events = {
 				payload_text = "장소와 장굉을 영입합니다.",
 			},
 		},
-		['03_02'] = { index = 32, hero_kr = "대교", desc = "강동이교 합류 : 합비(여남) 점령",
+		['03_02'] = { index = 32, hero_kr = "대교", desc = "강동이교 합류 : 합비(여강) 점령",
 			-- 정사 199년
 			-- 대교, 소교 등장 스페셜 인시던트로 트리거 -- 합비 주변 정착지 점령시 발동시켜야...
 			mission_type = "CONTROL_N_REGIONS_INCLUDING",
@@ -200,10 +200,10 @@ local tke_sun_jian_events = {
 					{ option = "GEN_TARGET_CHARACTER", value = "", target = "target_character_4" },
 				},
 				payloads = {
-					{ payload = "LOCATE", value = "CHARACTER", target = "target_character_1" },
-					{ payload = "LOCATE", value = "CHARACTER", target = "target_character_2" },
-					{ payload = "LOCATE", value = "CHARACTER", target = "target_character_3" },
-					{ payload = "LOCATE", value = "CHARACTER", target = "target_character_4" },
+					{ payload = "LOCATED", value = "CHARACTER", target = "target_character_1" },
+					{ payload = "LOCATED", value = "CHARACTER", target = "target_character_2" },
+					{ payload = "LOCATED", value = "CHARACTER", target = "target_character_3" },
+					{ payload = "LOCATED", value = "CHARACTER", target = "target_character_4" },
 					{ payload = "CAMPAIGN_PAYLOAD_RECORD", value = "PAYLOAD[3k_main_campaign_payload_character_move_to_faction];FACTION;SOURCE_CHARACTER[target_character_3]", target = "target_faction_1" },
 					{ payload = "CAMPAIGN_PAYLOAD_RECORD", value = "PAYLOAD[3k_main_campaign_payload_character_move_to_faction];FACTION;SOURCE_CHARACTER[target_character_4]", target = "target_faction_1" },
 					{ payload = "RELATIONSHIP_TRIGGERS", value = "FRIENDSHIP_TARGET[target_character_1];TRIGGER_SET_RECORD[3k_main_relationship_trigger_set_event_positive_dilemma_large]", target = "target_character_3" },
@@ -218,12 +218,12 @@ local tke_sun_jian_events = {
 			objectives = {
 				{ option = "GEN_TARGET_NONE" },
 			},
-			title = "손책과 대교 주유와 소교 인연을 맺다",
+			title = "손책과 주유, 강동 이교와 상봉하다",
 			description = "손책과 주유는 대교와 소교가 있는 합비를 점령하고, 강동이교와 조우했습니다. 그들간에 친밀도를 높여 인연을 성사시키십시오.",
-			payload_text = "손책과 대교, 주유와소교 혼인",
-			objective_text = "[[col:magic]]손책[[/col]]과 [[col:magic]]대교[[/col]] 또는 [[col:flavour]]주유[[/col]]와 [[col:magic]]소교[[/col]]가 함께 전투에서 승리하십시오.",
+			payload_text = "손책과 대교, 주유와 소교가 혼인을 맺습니다",
+			objective_text = "[[col:magic]]손책[[/col]]과 [[col:magic]]대교[[/col]] 또는 [[col:flavour]]주유[[/col]]와 [[col:flavour]]소교[[/col]]가 함께 전투에서 승리하십시오.",
 			incident = {
-				title = "손책과 주유 강동이교와 연을 맺다",
+				title = "손책과 주유, 강동이교와 겹경사를 치루다",
 				description = "손책은 강동이교의 언니 대교와 주유는 동생 소교와 각각 부부의 인연을 맺었습니다. 젤세영웅들과 젤서가인들간의 동반 인연은 천하에 소문이 퍼져나갔습니다.",
 				options = {
 					{ option = "GEN_CND_CHARACTER_TEMPLATE", value = "3k_main_template_historical_sun_ce_hero_fire", target = "target_character_1" },
@@ -236,10 +236,10 @@ local tke_sun_jian_events = {
 					{ option = "GEN_TARGET_CHARACTER", value = "", target = "target_character_4" },
 				},
 				payloads = {
-					{ payload = "LOCATE", value = "CHARACTER", target = "target_character_1" },
-					{ payload = "LOCATE", value = "CHARACTER", target = "target_character_2" },
-					{ payload = "LOCATE", value = "CHARACTER", target = "target_character_3" },
-					{ payload = "LOCATE", value = "CHARACTER", target = "target_character_4" },
+					{ payload = "LOCATED", value = "CHARACTER", target = "target_character_1" },
+					{ payload = "LOCATED", value = "CHARACTER", target = "target_character_2" },
+					{ payload = "LOCATED", value = "CHARACTER", target = "target_character_3" },
+					{ payload = "LOCATED", value = "CHARACTER", target = "target_character_4" },
 					{ payload = "CAMPAIGN_PAYLOAD_RECORD", value = "PAYLOAD[3k_main_campaign_payload_marry];CHARACTER;SOURCE_CHARACTER[target_character_1]", target = "target_character_3" },
 					{ payload = "CAMPAIGN_PAYLOAD_RECORD", value = "PAYLOAD[3k_main_campaign_payload_marry];CHARACTER;SOURCE_CHARACTER[target_character_2]", target = "target_character_4" },
 				},
@@ -278,16 +278,16 @@ local tke_sun_jian_events = {
 	join_incidents = {
 		['zu_mao'] = { index = 01, hero_kr = "조무", desc = "점령 3현",
 				-- 스타팅 시 TUP 온일 때 리스너 등록
-				title = "붉은 두건",
+				title = "손견의 붉은 두건",
 				description = "손견이 전투 중 위기에 처하자 한 명의 장수가 나타나, 손견의 붉은 두건을 자기 머리에 두르고 손견인 척 위장하고 적을 유인했다. 이에 손견은 위기를 탈출하여 무사할 수 있었다.",
-				payload_text = "조무는 창업 4대공신이 됩니다.",
+				payload_text = "조무는 창업 사대공신이 됩니다.",
 				gen_target = true
 			},
 		['lu_fan'] = { index = 02, hero_kr = "여범", desc = "손책 정착지 전투 승리",	-- 초기 FA
 				-- 손책 성인 -> 주유 합류 후에 리스너 등록 - historical_tke_sun_jian_02_join_lu_fan_incident
 				title = "민병대 출현",
 				description = "손책이 전투를 시작하자, 어디선가 한 장수가 100여명의 민병대을 이끌고 도와주러 나타났습니다. 준수한 용모에 영리한 눈빛을 한 이 장수는 용맹하게 아군과 함께 싸웠습니다.",
-				payload_text = "여범이 아군에 합류합니다.",
+				payload_text = "문무겸장 여범이 아군에 합류합니다.",
 				gen_target = true
 			},
 	},
@@ -296,48 +296,44 @@ local tke_sun_jian_events = {
 	special_incidents = {
 		-- 손책, 주유 - 결의 형제
 		['sun_ce_zhou_yu_oathsworn'] = { index = 61, hero_kr = "손책", desc = "손책과 주유 결의 형제",
-			-- 주유 합류 후 ??? 같은 군대로 전투 2회 - 스크립트로 체크
+			-- 주유 합류 후 ??? 같은 군대로 전투 1회 - 스크립트로 체크
 			title = "소패왕과 선율의 책사",
 			description = "죽마고우인 손책과 주유는 함께 이 난세를 평정하고 천하를 도모하자며 의기투합하여, 함께 태어나지는 못했어도 같은 날 죽을 맹세를 하며 결의형제의 인연을 맺었습니다.",
-		},
-		-- 손책, 주유 - 강동이교 인연 예언
-		['yu_ji_prophecy_da_qiao'] = { index = 62, hero_kr = "우길", desc = "우길의 등장 : 강동이교 예언",
-			-- 결의 형제 후 -- 턴 스타트 랜덤 35
-			title = "우길의 예언",
-			description = "손책과 주유가 군비를 점검하러 가는 길에 자신을 '우길'이라고 소개하는 노인을 만났습니다. 그 노인은 말합니다.\\\\n\\\\n\"여강에 당신들과 잘 어울리는 한쌍의 가인이 있어 당신들과 좋은 배필이 될 것이니...\"\\\\n\\\\n우길은 말만 남기고 홀연히 사라집니다.",
-			cnd_random = 35,
-			var_chance = 500,
+			payload_text = "손책과 주유는 어린시절 꿈이 이루어졌다며 승리를 기뻐합니다.",
 			options = {
 				{ option = "GEN_CND_CHARACTER_TEMPLATE", value = "3k_main_template_historical_sun_ce_hero_fire", target = "target_character_1" },
 				{ option = "GEN_TARGET_CHARACTER", value = "", target = "target_character_1" },
 				{ option = "GEN_CND_CHARACTER_TEMPLATE", value = "3k_main_template_historical_zhou_yu_hero_water", target = "target_character_2" },
 				{ option = "GEN_TARGET_CHARACTER", value = "", target = "target_character_2" },
-				{ option = "GEN_CND_OWNS", value = "", target = "target_character_1" },
-				{ option = "GEN_CND_OWNS", value = "", target = "target_character_2" },
 			},
 			payloads = {
-				{ payload = "EFFECT_BUNDLE", value = "KEY[3k_main_payload_faction_character_omen_satisfaction_increase];DURATION[5]", target = "default" },
+				{ payload = "LOCATED", value = "CHARACTER", target = "target_character_3" },
+				{ payload = "LOCATED", value = "CHARACTER", target = "target_character_4" },
+			}
+		},
+		-- 손책, 주유 - 강동이교 인연 예언
+		['yu_ji_prophecy_da_qiao'] = { index = 62, hero_kr = "우길", desc = "우길의 등장 : 강동이교 예언",
+			-- 결의 형제 후 -- 턴 스타트 랜덤
+			title = "우길의 예언",
+			description = "\\\\n손책과 주유가 군비를 점검하러 가는 길에 자신을 [[col:flavour]]우길[[/col]]이라고 소개하는 노인을 만났습니다. 그 노인은 말합니다.\\\\n\\\\n\"여강에는 한쌍의 가인이 있어 당신들과 잘 어울리는 좋은 배필이 될 것이니...\"\\\\n\\\\n우길은 뜻모를 말만 남기고 홀연히 사라집니다.",
+			supplementary_text = "[[col:flavour]]합비 주변 지역[[/col]](심양 서양 여음 서현 수춘 거소 서릉 고시)을 점령하면 강동이교가 출현합니다.",
+			options = {
+				{ option = "GEN_TARGET_NONE", },
+			},
+			payloads = {
+				{ payload = "EFFECT_BUNDLE", value = "KEY[3k_main_payload_faction_character_omen_satisfaction_increase];DURATION[5]", target = "target_faction_1" },
 			},
 		},
 		-- 손책, 주유 - 대교.소교 결혼 이벤트
 		['da_qiao_appears'] = { index = 63, hero_kr = "대교", desc = "합비 주변 점령 시 여강의 강동이교 등장",
 			-- 대교, 소교 출현 -- 합비 주변 지역 점령
-			--[[
-		      neighbor = 심양
-			  neighbor = 서양
-			  neighbor = 여음
-			  neighbor = 서현
-			  neighbor = 수춘
-			  neighbor = 거소
-			  neighbor = 서릉
-			  neighbor = 고시
-		  ]]--
-			-- 먼저 합비 점령 세력에 스폰하고 인시던트를 발생시킨다. 두 명다 LOCATE CHARACTER 가능하게 반수동으로 인시던트 제작
+			--[[ 심양 서양 여음 서현 수춘 거소 서릉 고시 ]]--
+			-- 먼저 합비 점령 세력에 스폰하고 인시던트를 발생시킨다. 두 명다 LOCATED CHARACTER 가능하게 반수동으로 인시던트 제작
 			title = "합비 교공의 강동이교",
 			description = "여강에 있는 교공의 두 딸이 강동이교라 불리우는 국색을 갖춘 재인들이라는 소문이 자자합니다. 죽마고우 사이인 손책과 주유는 이 소문을 듣고, 자기들과 좋은 짝이 될 것이라며 즐거워 합니다.",
 			-- 대교, 소교를 합비(여강) 소유 세력에 스폰
 			-- 합비 점령하면 손견 세력으로 합류하는 미션 트리거
-			payload_text = "강동이교 대교와 소교가 합비 지역에 출현했습니다.",
+			payload_text = "강동이교라 불리우는 [[col:magic]]대교[[/col]]와 [[col:magic]]소교[[/col]]가 [[col:flavour]]합비[[/col]] 지역에 출현했습니다.",
 			options = {
 				{ option = "GEN_CND_OWNS_REGION", value = "3k_main_lujiang_capital", target = "target_faction_2" },
 				{ option = "GEN_TARGET_FACTION", value = "", target = "target_faction_2" },
@@ -348,7 +344,6 @@ local tke_sun_jian_events = {
 				--{ option = "", value = "", target = "" },
 			},
 			payloads = {
-				{ payload = "LOCATED", value = "FACTION", target = "target_faction_2" },
 				{ payload = "LOCATED", value = "CHARACTER", target = "target_character_3" },
 				{ payload = "LOCATED", value = "CHARACTER", target = "target_character_4" },
 			}
@@ -357,6 +352,38 @@ local tke_sun_jian_events = {
 	},
 
 	special_dilemmas = {
+		['to_changsha'] = { index = 00, desc = "손견 장사 이동",
+			ui_image = "ep_event_capturing_capital_good_sima_yue",
+			title = "손견를 [[col:dark_r]]장사군, 적벽[[/col]] 지역으로 이동시키겠습니까?",
+			description = "\\\\n역사에 따라 손견이 [[col:dark_r]]장사군, 적벽[[/col]]으로 이동할 수 있습니다.\\\\n\\\\n[[b]]'이동한다'[[/b]]를 선택하면 손견과 전유는 즉시 [[col:dark_r]]장사군, 임상[[/col]]으로 이동됩니다.\\\\n손견와 전유가 장사군, 임상으로 이동한 후, [[col:red]]전유[[/col]]을 처치 하십시오.\\\\n[[col:red]]남군, 강릉[[/col]]를 점령하는 튜토리얼 미션은 자동으로 완료됩니다.",
+			options = {
+				{ option = "GEN_CND_REGION", value = "3k_main_changsha_resource_1", target = "target_region_1" },
+				{ option = "GEN_TARGET_REGION", value = "", target = "target_region_1" },
+				{ option = "GEN_CND_CHARACTER_TEMPLATE", value = "3k_main_template_historical_sun_jian_hero_metal", target = "target_character_1" },
+				{ option = "GEN_TARGET_CHARACTER", value = "", target = "target_character_1" },
+			},
+			choices = {
+				first = {
+					title = "적벽으로 이동한다",
+					description = "장사군, 적벽으로 이동하여 강동 정벌을 준비한다.",
+					payloads = {
+						{ payload = "LOCATED", value = "REGION", target = "target_region_1" },
+					},
+					payload_texts = {
+						"유표를 조심하십시오.",
+						"강동으로 진출 준비를 하십시오.",
+					},
+				},
+				second = {
+					title = "그대로 진행한다",
+					description = "강릉을 점유하고 유표 세력과 대치한다",
+					ui_text = "dummy_factual_choice",
+					payloads = {
+						{ payload = "LOCATED", value = "CHARACTER", target = "target_character_1" },
+					},
+				},
+			},
+		},
 		-- 손책 성인 후 손견 사망 딜레마?
 		-- 손권 승계 딜레마?
 	},
